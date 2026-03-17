@@ -21,7 +21,7 @@ const process = [
   { icon: Rocket, title: "GROWTH", desc: "Continuous optimization to scale your reach" },
 ]
 
-// Real Google Drive video URLs from the original site
+// Google Drive video URLs 
 const portfolioVideos = [
   { id: "01", url: "https://drive.google.com/file/d/1E13U61V-ZCcDwotc04ws1yweJLvKSzEl/preview", title: "BRAND_STORY" },
   { id: "02", url: "https://drive.google.com/file/d/1M_20Qw3DMKtmTbr_zRHjkMM_7ZAi8AWK/preview", title: "PRODUCT_LAUNCH" },
