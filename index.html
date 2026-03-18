@@ -81,6 +81,10 @@
             padding: 100px 0;
         }
 
+        section[id] {
+            scroll-margin-top: 110px;
+        }
+
         .text-center { text-align: center; }
         
         .gradient-text {
@@ -1179,6 +1183,21 @@
 
         revealElements.forEach(el => revealObserver.observe(el));
 
+        const scrollToSection = (hash) => {
+            const targetId = hash === '#' ? 'home' : hash.slice(1);
+            const target = document.getElementById(targetId);
+
+            if (!target) return;
+
+            const navOffset = navbar.offsetHeight + 20;
+            const top = targetId === 'home'
+                ? 0
+                : target.getBoundingClientRect().top + window.scrollY - navOffset;
+
+            window.scrollTo({ top, behavior: 'smooth' });
+            window.history.replaceState(null, '', `#${targetId}`);
+        };
+
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
@@ -1187,10 +1206,18 @@
             navLinks.classList.toggle('mobile-active');
         });
 
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
+        // Smooth-scroll anchor links and close mobile menu
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const hash = link.getAttribute('href');
+
+                if (!hash || (hash !== '#' && !document.querySelector(hash))) {
+                    return;
+                }
+
+                e.preventDefault();
                 navLinks.classList.remove('mobile-active');
+                scrollToSection(hash);
             });
         });
 

@@ -159,20 +159,12 @@ function App() {
     event.preventDefault()
     setIsMenuOpen(false)
 
-    if (target === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      window.history.replaceState(null, '', '#home')
-      return
-    }
-
     const section = document.getElementById(target)
     if (!section) return
 
-    const navOffset = 96
-    const top = section.getBoundingClientRect().top + window.scrollY - navOffset
-
-    window.scrollTo({ top, behavior: 'smooth' })
-    window.history.replaceState(null, '', `#${target}`)
+    window.requestAnimationFrame(() => {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
   }
 
   useEffect(() => {
@@ -694,7 +686,7 @@ function App() {
       <footer className="py-8 px-4 border-t border-cyan-500/20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="text-2xl font-['Orbitron'] font-bold">WEG<span className="text-cyan-400">.</span><span className="text-fuchsia-500">exe</span></span>
-          <p className="text-white/40 text-sm font-mono">&gt; 2024 WEG Agency. All systems operational.</p>
+          <p className="max-w-xs text-center text-[10px] leading-relaxed text-white/40 font-mono md:flex-1 md:px-6">&gt; 2024 WEG Agency. All systems operational.</p>
         </div>
       </footer>
     </div>
