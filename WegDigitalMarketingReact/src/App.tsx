@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type MouseEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Menu, X, ArrowRight, Hash, Scissors, Fingerprint, Palette, Code, Feather,
@@ -46,6 +46,14 @@ const websiteProjects = [
   { title: "NATTY_TATTOO", url: "https://www.nattytattoo.com/", cat: "PORTFOLIO", desc: "Tattoo artist portfolio", accent: "yellow", thumbnail: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&h=400&fit=crop" },
   { title: "GOLD_TECHNOLOGIES", url: "https://gold-technologies-web.vercel.app/", cat: "PLATFORM", desc: "Tech company website", accent: "cyan", thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop" },
 ]
+
+const navItems = [
+  { label: 'HOME', target: 'home' },
+  { label: 'ABOUT', target: 'about' },
+  { label: 'SERVICES', target: 'services' },
+  { label: 'WORK', target: 'portfolio' },
+  { label: 'CONTACT', target: 'contact' },
+] as const
 
 // Terminal-style Loading Component
 const TerminalLoader = () => {
@@ -147,6 +155,26 @@ function App() {
   const [scrolled, setScrolled] = useState(false)
   const [heroLoading, setHeroLoading] = useState(true)
 
+  const handleNavClick = (target: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    setIsMenuOpen(false)
+
+    if (target === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.history.replaceState(null, '', '#home')
+      return
+    }
+
+    const section = document.getElementById(target)
+    if (!section) return
+
+    const navOffset = 96
+    const top = section.getBoundingClientRect().top + window.scrollY - navOffset
+
+    window.scrollTo({ top, behavior: 'smooth' })
+    window.history.replaceState(null, '', `#${target}`)
+  }
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
@@ -182,22 +210,24 @@ function App() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <motion.a 
-            href="#" 
+            href="#home" 
             className="text-3xl font-['Orbitron'] font-bold tracking-wider"
             whileHover={{ scale: 1.05 }}
+            onClick={handleNavClick('home')}
           >
             WEG<span className="text-cyan-400">.</span><span className="text-fuchsia-500">exe</span>
           </motion.a>
           
           <div className="hidden md:flex items-center gap-8">
-            {['HOME', 'ABOUT', 'SERVICES', 'PORTFOLIO', 'CONTACT'].map((item) => (
+            {navItems.map((item) => (
               <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.label}
+                href={`#${item.target}`}
                 className="text-sm font-semibold tracking-wider text-white/70 hover:text-cyan-400 transition-colors relative glitch-hover"
                 whileHover={{ y: -2 }}
+                onClick={handleNavClick(item.target)}
               >
-                [{item}]
+                [{item.label}]
               </motion.a>
             ))}
           </div>
@@ -207,6 +237,7 @@ function App() {
             className="hidden md:flex items-center gap-2 bg-cyan-500 text-black px-6 py-2 font-bold text-sm tracking-wider btn-cyber"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleNavClick('contact')}
           >
             <Terminal size={16} /> INIT_CONTACT
           </motion.a>
@@ -227,14 +258,14 @@ function App() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden bg-[#050508] border border-cyan-500/50 mt-4 mx-4"
             >
-              {['HOME', 'ABOUT', 'SERVICES', 'WORK', 'CONTACT'].map((item) => (
+              {navItems.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.label}
+                  href={`#${item.target}`}
                   className="block px-6 py-4 font-semibold tracking-wider border-b border-cyan-500/30 last:border-b-0 text-cyan-400 hover:bg-cyan-500/10"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={handleNavClick(item.target)}
                 >
-                  &gt; {item}
+                  &gt; {item.label}
                 </a>
               ))}
             </motion.div>
@@ -612,17 +643,17 @@ function App() {
                 href="https://www.instagram.com/weg.digital.marketing?igsh=MXgzZGI4bTFtbHhpcA=="
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 border border-fuchsia-500/50 px-6 py-4 font-mono text-fuchsia-400 hover:bg-fuchsia-500/10 transition-colors"
+                className="flex min-w-0 items-start sm:items-center justify-start sm:justify-center gap-3 border border-fuchsia-500/50 px-4 sm:px-6 py-4 font-mono text-sm sm:text-base text-fuchsia-400 text-left sm:text-center hover:bg-fuchsia-500/10 transition-colors break-all"
                 whileHover={{ scale: 1.02 }}
               >
-                <Instagram size={20} /> @weg.digital.marketing
+                <Instagram size={20} className="shrink-0" /> <span className="min-w-0 break-all">@weg.digital.marketing</span>
               </motion.a>
               <motion.a
                 href="mailto:Wegdigitalmarketing@gmail.com"
-                className="flex items-center justify-center gap-3 border border-cyan-500/50 px-6 py-4 font-mono text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                className="flex min-w-0 items-start sm:items-center justify-start sm:justify-center gap-3 border border-cyan-500/50 px-4 sm:px-6 py-4 font-mono text-sm sm:text-base text-cyan-400 text-left sm:text-center hover:bg-cyan-500/10 transition-colors break-all"
                 whileHover={{ scale: 1.02 }}
               >
-                <Mail size={20} /> WegDigitalMarketing@gmail.com
+                <Mail size={20} className="shrink-0" /> <span className="min-w-0 break-all">WegDigitalMarketing@gmail.com</span>
               </motion.a>
             </div>
 
