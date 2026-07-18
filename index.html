@@ -506,12 +506,31 @@
             border: none;
         }
 
+        /* Lazy-load placeholder shown until a video's iframe is actually inserted */
+        .video-wrapper .video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 28px;
+            background: var(--bg-light);
+        }
+
+        .video-wrapper .video-placeholder i {
+            transition: transform 0.3s ease;
+        }
+
+        .video-wrapper:hover .video-placeholder i {
+            transform: scale(1.15);
+        }
+
         /* Branding & Website Grid */
         .branding-grid, .website-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
-            padding: 0 10px;
         }
 
         .project-card {
@@ -1014,34 +1033,57 @@
             </div>
 
             <!-- Videos Section -->
+            <!--
+                PERFORMANCE FIX:
+                Each Google Drive iframe is heavy (its own document, player JS, etc).
+                Loading 13 of them at once on page load was what crashed/slowed the page.
+                Fix: iframes are now lazy-loaded. Each wrapper stores its embed URL in
+                data-src instead of src, and a click-to-play placeholder shows on top.
+                An IntersectionObserver only injects the real iframe once a video
+                scrolls near the viewport AND only after the user clicks it,
+                so nothing heavy loads until it's actually needed.
+            -->
             <div id="videos" class="portfolio-content active">
                 <div class="video-grid">
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1E13U61V-ZCcDwotc04ws1yweJLvKSzEl/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1E13U61V-ZCcDwotc04ws1yweJLvKSzEl/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1M_20Qw3DMKtmTbr_zRHjkMM_7ZAi8AWK/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1M_20Qw3DMKtmTbr_zRHjkMM_7ZAi8AWK/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/13q1R1jJJI22Iek51JAtV71W6ktzwc8Sp/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/13q1R1jJJI22Iek51JAtV71W6ktzwc8Sp/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1pvtTtpT170xKOL8kZVwcalJogXbrNwJ9/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1pvtTtpT170xKOL8kZVwcalJogXbrNwJ9/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1yynTVLqa2CWjRmCs_S6n4VXmRjErfWrp/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1yynTVLqa2CWjRmCs_S6n4VXmRjErfWrp/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1pvtTtpT170xKOL8kZVwcalJogXbrNwJ9/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1pvtTtpT170xKOL8kZVwcalJogXbrNwJ9/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1oKhhlaSnGBLuzK0IFONkBNgOdznLKkRl/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1oKhhlaSnGBLuzK0IFONkBNgOdznLKkRl/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1pdaM1Xx0PKWffRugJTYqmrnhWjfE2TDO/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1pdaM1Xx0PKWffRugJTYqmrnhWjfE2TDO/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
-                    <div class="video-wrapper">
-                        <iframe src="https://drive.google.com/file/d/1l6ZsmZRtn2SH6UhIlxznz__GOwDCfvx4/preview" allowfullscreen></iframe>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1l6ZsmZRtn2SH6UhIlxznz__GOwDCfvx4/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <!-- New videos added -->
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/110o7rNkdFQCOxFPhZFYFJ0qBTmcHeYKC/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1D0PehnYv27AM_gciR9mAFYE9gdRbmvoY/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1GYw8Yh_L92lBaHtmSyawcw9gQ8U_uDSe/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <div class="video-wrapper" data-src="https://drive.google.com/file/d/1uMftjSf3FYJFBEL73Dp1vl5iZw8gtwJm/preview">
+                        <div class="video-placeholder"><i class="fas fa-play-circle"></i></div>
                     </div>
                 </div>
             </div>
@@ -1050,21 +1092,21 @@
             <div id="branding" class="portfolio-content">
                 <div class="branding-grid">
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=800&auto=format&fit=crop" alt="Brand Project 1">
+                        <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=800&auto=format&fit=crop" alt="Brand Project 1" loading="lazy">
                         <div class="project-info">
                             <h4>Lumina Tech Branding</h4>
                             <p>Complete brand identity design</p>
                         </div>
                     </div>
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop" alt="Brand Project 2">
+                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop" alt="Brand Project 2" loading="lazy">
                         <div class="project-info">
                             <h4>Apex Fitness Brand</h4>
                             <p>Logo & visual identity</p>
                         </div>
                     </div>
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop" alt="Brand Project 3">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop" alt="Brand Project 3" loading="lazy">
                         <div class="project-info">
                             <h4>Eco Products Packaging</h4>
                             <p>Packaging design & branding</p>
@@ -1077,21 +1119,21 @@
             <div id="websites" class="portfolio-content">
                 <div class="website-grid">
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Website Project 1">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Website Project 1" loading="lazy">
                         <div class="project-info">
                             <h4>Tech Startup Website</h4>
                             <p>Modern responsive web design</p>
                         </div>
                     </div>
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop" alt="Website Project 2">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop" alt="Website Project 2" loading="lazy">
                         <div class="project-info">
                             <h4>E-Commerce Platform</h4>
                             <p>Full-stack development</p>
                         </div>
                     </div>
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="Website Project 3">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="Website Project 3" loading="lazy">
                         <div class="project-info">
                             <h4>Creative Agency Site</h4>
                             <p>Portfolio website design</p>
@@ -1227,6 +1269,46 @@
                 navLinks.classList.remove('mobile-active');
             }
         });
+
+        // --- LAZY-LOAD VIDEO IFRAMES (crash fix) ---
+        // Each video only turns into a real iframe once the user clicks its
+        // placeholder AND it's currently in/near the viewport. This means the
+        // page never has more than a handful of Drive iframes loaded at once,
+        // instead of all 13 loading simultaneously on page load.
+        function loadVideo(wrapper) {
+            if (wrapper.dataset.loaded) return;
+            const src = wrapper.getAttribute('data-src');
+            if (!src) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.allow = 'autoplay';
+            iframe.allowFullscreen = true;
+            iframe.loading = 'lazy';
+            wrapper.innerHTML = '';
+            wrapper.appendChild(iframe);
+            wrapper.dataset.loaded = 'true';
+        }
+
+        const videoWrappers = document.querySelectorAll('.video-wrapper[data-src]');
+
+        // Click-to-play: user taps the placeholder to load that one video
+        videoWrappers.forEach(wrapper => {
+            wrapper.addEventListener('click', () => loadVideo(wrapper), { once: true });
+        });
+
+        // Also lazily preload a video once it's about to scroll into view,
+        // so it's ready without needing extra clicks while browsing —
+        // but only one at a time, well after page load, never all at once.
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadVideo(entry.target);
+                    videoObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '200px 0px', threshold: 0.01 });
+
+        videoWrappers.forEach(wrapper => videoObserver.observe(wrapper));
     </script>
 </body>
 </html>
